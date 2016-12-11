@@ -60,7 +60,7 @@
                     </li>
                 </ul>
                 <p class="navbar-text navbar-right" style="padding-right: 16px">
-                    Last refresh: <strong>{{.TimeNow}}</strong>
+                    Last refresh: <strong>{{.LastRefreshTime}}</strong>
                 </p>
             </div>
             <!-- /.navbar-collapse -->
@@ -74,6 +74,50 @@
         <div id="frontend" class="row">
             <div class="col-lg-12">
                 <h3>Frontend</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-sm-3 col-xs-6">
+                <div class="alert alert-success">
+                    <div style="margin-bottom: 10px;">
+                        <div><strong>Name</strong></div>
+                        <div>MDS frontend-51</div>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <div><strong>HTTP endpoint</strong></div>
+                        <div style="white-space: nowrap; overflow:hidden; text-overflow: ellipsis;">
+                            <a href="http://front-51.mds.contoso.com" class="alert-link" target="_new">http://front-51.mds.contoso.com/</a>
+                        </div>
+                    </div>
+                    <div>
+                        <div><strong>Status</strong></div>
+                        <div>
+                            Healthy
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-6">
+                <div class="alert alert-danger">
+                    <div style="margin-bottom: 10px;">
+                        <div><strong>Name</strong></div>
+                        <div style="white-space: nowrap; overflow:hidden; text-overflow: ellipsis;" title="TODO3">
+                            MDS frontend-51
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <div><strong>HTTP endpoint</strong></div>
+                        <div style="white-space: nowrap; overflow:hidden; text-overflow: ellipsis;">
+                            <a href="http://front-51.mds.contoso.com" class="alert-link" title="TODO2" target="_new">http://front-51.mds.contoso.com/</a>
+                        </div>
+                    </div>
+                    <div>
+                        <div><strong>Status</strong></div>
+                        <div style="white-space: nowrap; overflow:hidden; text-overflow: ellipsis;" title="TODO">
+                            Timeout exceeded blah bal ba
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- /.row -->
@@ -95,13 +139,11 @@
     <!-- /.container -->
 
     <!-- Footer -->
-    <nav class="navbar-fixed-bottom">
+    <nav class="navbar-default navbar-fixed-bottom">
         <div class="container-fluid">
-            <p class="navbar-text">
-                <div style="text-align: center;">
-                    Created by <a href="http://marcin.tojek.pl/" target="_new">Marcin Tojek</a> and distributed under
-                    MIT license. Feel free to use it.
-                </div>
+            <p class="navbar-text navbar-left">
+                Created by <a href="http://marcin.tojek.pl/" target="_new">Marcin Tojek</a> and distributed under
+                MIT license.
             </p>
         </div>
         <!-- /.container -->

@@ -42,6 +42,6 @@ func (indexHandler *IndexHandler) ServeHTTP(rw http.ResponseWriter, req *http.Re
 
 func (indexHandler *IndexHandler) readPageData() *PageData {
 	return &PageData{
-		TimeNow: time.Now().Format(time.RFC1123Z),
+		LastRefreshTime: time.Now().Format(time.RFC1123Z),
 	}
 }
