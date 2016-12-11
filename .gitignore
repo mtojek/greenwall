@@ -26,3 +26,6 @@ _testmain.go
 # IDE
 .idea/
 *.iml
+
+# TODO file
+TODO
