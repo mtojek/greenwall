@@ -15,6 +15,13 @@ The app can be installed in a couple of seconds thus do not hesitate to run this
 
 ## Features
 
+* web live dashboard based on Bootstrap
+* easily resizeable dashboard (wall, desktop, mobile screens)
+* definitions of monitored hosts in a YAML file
+* use HTTP endpoints as source of health information
+* search for "healthy" phrases in HTTP responses
+* install and run in a few seconds!
+
 ## How to use it
 
 ## Dist
