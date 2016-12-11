@@ -34,10 +34,14 @@ Prepare a YAML file (```config.yaml```) with definition of monitored hosts:
 TODO
 ```
 
-Run the live dashboard:
+Run the application:
 ```bash
 greenwall -staticDir $GOPATH/src/github.com/mtojek/greenwall/frontend
 ```
+
+Go to the live dashboard:
+
+[http://localhost:9001](http://localhost:9001)
 
 ## Dist
 
