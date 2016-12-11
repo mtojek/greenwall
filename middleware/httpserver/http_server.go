@@ -3,6 +3,8 @@ package httpserver
 import (
 	"net/http"
 
+	"log"
+
 	"github.com/mtojek/greenwall/middleware/configuration"
 )
 
@@ -18,5 +20,8 @@ func NewHTTPServer(applicationConfiguration *configuration.ApplicationConfigurat
 
 func (httpServer *HTTPServer) ListenAndServe() {
 	staticHandler := http.FileServer(http.Dir(httpServer.applicationConfiguration.StaticDir))
-	http.ListenAndServe(httpServer.applicationConfiguration.HostPort, staticHandler)
+	err := http.ListenAndServe(httpServer.applicationConfiguration.HostPort, staticHandler)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
