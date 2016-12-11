@@ -1,5 +1,9 @@
 build: go-get cc install test
 
+clean:
+	rm -f $(GOPATH)/bin/greenwall
+	rm -f dist.zip
+
 go-get:
 	go get golang.org/x/tools/cmd/goimports
 
@@ -16,5 +20,6 @@ test:
 	go vet -x ./...
 
 dist: build
-	zip -j dist.zip $(GOPATH)/bin/greenwall && zip -g -r dist.zip frontend
+	rm -f dist.zip && zip -j dist.zip $(GOPATH)/bin/greenwall && zip -g -r dist.zip frontend
+	[ -s dist.zip ]
 
