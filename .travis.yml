@@ -4,4 +4,4 @@ go:
   - 1.7.4
   - tip
 
-install: make dist
+after_success: make dist
