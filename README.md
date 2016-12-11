@@ -15,6 +15,8 @@ The app can be installed in a couple of seconds thus do not hesitate to run this
 
 ## Features
 
+## How to use it
+
 ## Dist
 
 ## Screenshots
