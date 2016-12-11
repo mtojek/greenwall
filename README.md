@@ -22,3 +22,7 @@ The app can be installed in a couple of seconds thus do not hesitate to run this
 TODO Desktop
 
 TODO Mobile
+
+## License
+
+MIT License, see [LICENSE](https://github.com/mtojek/greenwall/blob/master/LICENSE) file.
