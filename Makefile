@@ -1,5 +1,5 @@
 
-build: go-get install test
+build: go-get cc install test
 
 go-get:
 	go get golang.org/x/tools/cmd/goimports
