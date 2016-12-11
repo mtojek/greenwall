@@ -4,8 +4,8 @@ go-get:
 	go get golang.org/x/tools/cmd/goimports
 
 cc:
-	gofmt -s -w middleware
-	goimports -w middleware
+	gofmt -s -w middleware *.go
+	goimports -w middleware *.go
 
 install:
 	go get -t -v ./...
@@ -17,6 +17,4 @@ test:
 
 dist: build
 	zip -j dist.zip $(GOPATH)/bin/greenwall && zip -g -r dist.zip frontend
-
-# TODO go lint
 

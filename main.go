@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/mtojek/greenwall/middleware/httpserver"
 	"github.com/mtojek/greenwall/middleware/configuration"
+	"github.com/mtojek/greenwall/middleware/httpserver"
 )
 
 func main() {

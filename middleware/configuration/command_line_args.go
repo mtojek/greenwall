@@ -9,6 +9,7 @@ import (
 
 const indexFile = "index.html"
 
+// FromCommandLineArgs method reads configuration from command line arguments.
 func FromCommandLineArgs() *ApplicationConfiguration {
 	hostPort := flag.String("hostPort", ":9001", "Host:port of the greenwall HTTP server")
 	staticDir := flag.String("staticDir", "frontend", "Path to frontend static resources")
@@ -19,14 +20,14 @@ func FromCommandLineArgs() *ApplicationConfiguration {
 		StaticDir: *staticDir,
 	}
 
-	err := Validate(applicationConfiguration)
+	err := validate(applicationConfiguration)
 	if err != nil {
 		log.Fatalf("Error occurred while validating configuration: %v", err)
 	}
 	return applicationConfiguration
 }
 
-func Validate(applicationConfiguration *ApplicationConfiguration) error {
+func validate(applicationConfiguration *ApplicationConfiguration) error {
 	indexFile := path.Join(applicationConfiguration.StaticDir, indexFile)
 	_, err := os.Stat(indexFile)
 	return err
