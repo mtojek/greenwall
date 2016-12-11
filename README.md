@@ -45,6 +45,15 @@ Go to the live dashboard:
 
 ## Dist
 
+It is possible to build a GreenWall distribution (```dist.zip```), which can be easily installed on the target host. Firstly, prepare a distribution:
+
+```bash
+make dist
+```
+
+Then copy the ```dist.zip``` file to the target host and unzip it. Please remember also to provide a ```config.yaml``` file before runnning the ```./greenwall``` binary.
+
+
 ## Screenshots
 
 TODO Desktop
