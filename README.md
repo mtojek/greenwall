@@ -66,7 +66,7 @@ groups:
       - name: backend-3
         endpoint: https://www.example.com/
       - name: backend-4
-        endpoint: https://www.example.com/https://1234567890.example.com/
+        endpoint: https://1234567890.example.com/
       - name: backend-5
         endpoint: https://www.example.com/
 ```
