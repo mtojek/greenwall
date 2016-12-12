@@ -35,9 +35,40 @@ Download and install GreenWall:
 go get github.com/mtojek/greenwall
 ```
 
-Prepare a YAML file (```config.yaml```) with definition of monitored hosts:
+Prepare a YAML file (```config.yaml```) with definitions of monitored hosts:
 ```yaml
-TODO
+---
+general:
+  healthcheckEvery: 15s
+  httpClientTimeout: 5s
+  refreshDashboardEvery: 10s
+groups:
+  - name: Frontend Nodes (us-east-1)
+    nodes:
+      - name: front-1
+        endpoint: https://www.example.com/
+        healthyResponseContains: Example
+      - name: front-2
+        endpoint: https://www.example.com/
+        healthyResponseContains: WillNotFoundThis
+  - name: Middleware Nodes (us-west-2)
+    nodes:
+      - name: middleware-1 with a really long name
+        endpoint: https://www.example.com/
+      - name: middleware-2
+        endpoint: https://www.example.com/
+  - name: Backend Nodes (us-west-2)
+    nodes:
+      - name: backend-1
+        endpoint: https://www.example.com/
+      - name: backend-2
+        endpoint: https://www.example.com/
+      - name: backend-3
+        endpoint: https://www.example.com/
+      - name: backend-4
+        endpoint: https://www.example.com/https://1234567890.example.com/
+      - name: backend-5
+        endpoint: https://www.example.com/
 ```
 
 Run the application:
