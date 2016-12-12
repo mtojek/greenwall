@@ -59,6 +59,10 @@ make dist
 
 Then copy the ```dist.zip``` file to the target host and unzip it. Please remember also to provide a ```config.yaml``` file before runnning the ```./greenwall``` binary.
 
+## Contact
+
+Please feel free to leave any comment or feedback by opening a new issue or contacting me directly via [email](mailto:marcin@tojek.pl). Thank you.
+
 ## License
 
 MIT License, see [LICENSE](https://github.com/mtojek/greenwall/blob/master/LICENSE) file.
