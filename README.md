@@ -88,7 +88,7 @@ It is possible to build a GreenWall distribution (```dist.zip```), which can be 
 make dist
 ```
 
-Then copy the ```dist.zip``` file to the target host and unzip it. Please remember also to provide a ```config.yaml``` file before runnning the ```./greenwall``` binary.
+Then copy the ```dist.zip``` file to the target host and unzip it. Please remember also to provide a ```config.yaml``` file before running the ```./greenwall``` binary.
 
 ## Contact
 
