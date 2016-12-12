@@ -13,6 +13,12 @@ GreenWall is a tiny service health dashboard written in Go (with frontend prepar
 
 The app can be installed in a couple of seconds thus do not hesitate to run this on your operational wall screens!
 
+### Screenshots
+
+TODO Desktop
+
+TODO Mobile
+
 ## Features
 
 * web live dashboard based on Bootstrap
@@ -52,13 +58,6 @@ make dist
 ```
 
 Then copy the ```dist.zip``` file to the target host and unzip it. Please remember also to provide a ```config.yaml``` file before runnning the ```./greenwall``` binary.
-
-
-## Screenshots
-
-TODO Desktop
-
-TODO Mobile
 
 ## License
 
