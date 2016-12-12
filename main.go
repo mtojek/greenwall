@@ -1,12 +1,14 @@
 package main
 
 import (
-	"github.com/mtojek/greenwall/middleware/configuration"
+	"github.com/mtojek/greenwall/middleware/application"
 	"github.com/mtojek/greenwall/middleware/httpserver"
+	"github.com/mtojek/greenwall/middleware/monitoring"
 )
 
 func main() {
-	applicationConfiguration := configuration.FromCommandLineArgs()
-	httpServer := httpserver.NewHTTPServer(applicationConfiguration)
+	applicationConfiguration := application.FromCommandLineArgs()
+	monitoringConfiguration := monitoring.FromApplicationConfiguration(applicationConfiguration)
+	httpServer := httpserver.NewHTTPServer(applicationConfiguration, monitoringConfiguration)
 	httpServer.ListenAndServe()
 }

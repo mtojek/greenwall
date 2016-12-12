@@ -31,7 +31,7 @@
 
 </head>
 
-<body>
+<body onload="setTimeout('document.location.reload();', {{.RefreshDashboardEvery}} * 1000);">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -60,7 +60,7 @@
                     </li>
                 </ul>
                 <p class="navbar-text navbar-right" style="padding-right: 16px">
-                    Last refresh: <strong>{{.LastRefreshTime}}</strong>
+                    Last refresh: <strong>{{.LastRefreshTime}}</strong> (refresh every {{.RefreshDashboardEvery}}s)
                 </p>
             </div>
             <!-- /.navbar-collapse -->

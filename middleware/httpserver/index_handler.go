@@ -1,33 +1,33 @@
 package httpserver
 
 import (
-	"net/http"
-
 	"html/template"
 	"log"
+	"net/http"
 	"path"
-
 	"time"
 
-	"github.com/mtojek/greenwall/middleware/configuration"
+	"github.com/mtojek/greenwall/middleware/application"
+	"github.com/mtojek/greenwall/middleware/monitoring"
 )
 
 const indexFile = "index.html"
 
 // IndexHandler is responsible for serving live dashboard page.
 type IndexHandler struct {
-	page *template.Template
+	page                    *template.Template
+	monitoringConfiguration *monitoring.Configuration
 }
 
 // NewIndexHandler method creates a new instance of IndexHandler.
-func NewIndexHandler(applicationConfiguration *configuration.ApplicationConfiguration) *IndexHandler {
+func NewIndexHandler(applicationConfiguration *application.Configuration, monitoringConfiguration *monitoring.Configuration) *IndexHandler {
 	page, err := template.New(indexFile).ParseFiles(path.Join(applicationConfiguration.StaticDir, indexFile))
 	if err != nil {
 		log.Fatalf("Error occurred while parsing template: %v", err)
 	}
-
 	return &IndexHandler{
 		page: page,
+		monitoringConfiguration: monitoringConfiguration,
 	}
 }
 
@@ -42,6 +42,7 @@ func (indexHandler *IndexHandler) ServeHTTP(rw http.ResponseWriter, req *http.Re
 
 func (indexHandler *IndexHandler) readPageData() *PageData {
 	return &PageData{
-		LastRefreshTime: time.Now().Format(time.RFC1123Z),
+		LastRefreshTime:       time.Now().Format(time.RFC1123Z),
+		RefreshDashboardEvery: indexHandler.monitoringConfiguration.General.RefreshDashboardEvery.Seconds(),
 	}
 }

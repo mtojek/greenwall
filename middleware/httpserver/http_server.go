@@ -4,18 +4,19 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/mtojek/greenwall/middleware/configuration"
+	"github.com/mtojek/greenwall/middleware/application"
+	"github.com/mtojek/greenwall/middleware/monitoring"
 )
 
 // HTTPServer is responsible for serving HTTP requests for frontend resources.
 type HTTPServer struct {
-	applicationConfiguration *configuration.ApplicationConfiguration
+	applicationConfiguration *application.Configuration
 	serverMux                *ServerMux
 }
 
 // NewHTTPServer method creates new instance of HTTPServer.
-func NewHTTPServer(applicationConfiguration *configuration.ApplicationConfiguration) *HTTPServer {
-	indexHandler := NewIndexHandler(applicationConfiguration)
+func NewHTTPServer(applicationConfiguration *application.Configuration, monitoringConfiguration *monitoring.Configuration) *HTTPServer {
+	indexHandler := NewIndexHandler(applicationConfiguration, monitoringConfiguration)
 	staticHandler := http.FileServer(http.Dir(applicationConfiguration.StaticDir))
 	serverMux := NewServerMux(indexHandler, staticHandler)
 	return &HTTPServer{
