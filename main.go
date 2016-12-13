@@ -10,7 +10,8 @@ import (
 func main() {
 	applicationConfiguration := application.FromCommandLineArgs()
 	monitoringConfiguration := monitoring.FromApplicationConfiguration(applicationConfiguration)
-	healthcheck := healthcheck.NewHealthcheck()
+	healthcheck := healthcheck.NewHealthcheck(applicationConfiguration, monitoringConfiguration)
+	healthcheck.Start()
 	httpServer := httpserver.NewHTTPServer(applicationConfiguration, monitoringConfiguration, healthcheck)
 	httpServer.ListenAndServe()
 }
