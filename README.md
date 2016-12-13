@@ -15,9 +15,13 @@ The app can be installed in a couple of seconds thus do not hesitate to run this
 
 ### Screenshots
 
-TODO Desktop
+#### Desktop view
 
-TODO Mobile
+<img src="https://github.com/mtojek/greenwall/blob/master/screenshot-1.png" alt="Screenshot Desktop" width="640px" />
+
+#### Mobile view
+
+<img src="https://github.com/mtojek/greenwall/blob/master/screenshot-2.png" alt="Screenshot Mobile" width="256px" />
 
 ## Features
 
