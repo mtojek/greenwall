@@ -6,7 +6,6 @@ import (
 	"regexp"
 	"strings"
 	"time"
-
 	"bytes"
 	"io/ioutil"
 
@@ -19,7 +18,7 @@ const (
 	statusSuccess = "success"
 	statusWarning = "warning"
 
-	messageNotCheckedYet   = "not checked yet"
+	messageNotCheckedYet   = "Not checked yet"
 	messagePatternNotFound = "Pattern not found"
 	messageOK              = "OK"
 
