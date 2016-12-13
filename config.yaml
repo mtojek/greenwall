@@ -8,13 +8,13 @@ groups:
     nodes:
       - name: front-1 master host
         endpoint: https://www.example.com/
-        healthyResponseContains: Example
-      - name: front-2
+        expectedPattern: Example
+      - name: intranet
         endpoint: https://www.example.com/
-        healthyResponseContains: WillNotFoundThis
+        expectedPattern: WillNotFoundThis
       - name: front-3
         endpoint: https://www.example.com/
-        healthyResponseContains: Example
+        expectedPattern: Example
   - name: Middleware (us-west-2)
     nodes:
       - name: middleware-1 master host
