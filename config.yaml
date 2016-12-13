@@ -1,8 +1,8 @@
 ---
 general:
-  healthcheckEvery: 15s
+  healthcheckEvery: 2s
   httpClientTimeout: 5s
-  refreshDashboardEvery: 10s
+  refreshDashboardEvery: 5s
 groups:
   - name: Frontend (us-east-1)
     nodes:
