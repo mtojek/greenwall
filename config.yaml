@@ -24,7 +24,7 @@ groups:
       - name: middleware-3
         endpoint: https://www.example.com/
       - name: middleware-4
-        endpoint: https://www.example.com/
+        endpoint: https://1234567890.example.com/
       - name: middleware-5
         endpoint: https://www.example.com/
   - name: Backend (us-west-2)

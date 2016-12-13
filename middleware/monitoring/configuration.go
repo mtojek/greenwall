@@ -23,7 +23,7 @@ type Group struct {
 
 // Node stores monitoring definition of a single node.
 type Node struct {
-	Name                    string `yaml:"name"`
-	Endpoint                string `yaml:"endpoint"`
-	HealthyResponseContains string `yaml:"healthyResponseContains"`
+	Name            string `yaml:"name"`
+	Endpoint        string `yaml:"endpoint"`
+	ExpectedPattern string `yaml:"expectedPattern"`
 }

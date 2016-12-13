@@ -1,8 +1,14 @@
 package healthcheck
 
 import (
+	"log"
+	"net/http"
 	"regexp"
 	"strings"
+	"time"
+
+	"bytes"
+	"io/ioutil"
 
 	"github.com/mtojek/greenwall/middleware/application"
 	"github.com/mtojek/greenwall/middleware/monitoring"
@@ -11,8 +17,11 @@ import (
 const (
 	statusDanger  = "danger"
 	statusSuccess = "success"
+	statusWarning = "warning"
 
-	messageNotCheckedYet = "not checked yet"
+	messageNotCheckedYet   = "not checked yet"
+	messagePatternNotFound = "Pattern not found"
+	messageOK              = "OK"
 
 	updateCheckChanLength  = 256
 	anchorReplaceCharacter = "_"
@@ -56,8 +65,7 @@ func NewHealthcheck(applicationConfiguration *application.Configuration,
 func (h *Healthcheck) Start() {
 	h.fillBoard()
 	go h.processRequests()
-	// Run go routinow with sleep
-	// http client, szukanie frazy i zapis wynikow
+	h.runChecks()
 }
 
 func (h *Healthcheck) fillBoard() {
@@ -68,7 +76,7 @@ func (h *Healthcheck) fillBoard() {
 			nodes = append(nodes, Node{
 				Name:     configuredNode.Name,
 				Endpoint: configuredNode.Endpoint,
-				Status:   statusDanger,
+				Status:   statusWarning,
 				Message:  messageNotCheckedYet,
 			})
 		}
@@ -93,6 +101,67 @@ func (h *Healthcheck) processRequests() {
 		case result := <-h.requestUpdateCheckChan:
 			h.applyChange(result)
 		}
+	}
+}
+
+func (h *Healthcheck) runChecks() {
+	for i, group := range h.monitoringConfiguration.Groups {
+		for j, node := range group.Nodes {
+			go h.runCheck(i, j, node.Endpoint, node.ExpectedPattern)
+		}
+	}
+}
+
+func (h *Healthcheck) runCheck(groupOffset, nodeOffset int, endpoint, expectedPattern string) {
+	client := http.Client{Timeout: h.monitoringConfiguration.General.HTTPClientTimeout}
+	searchedPattern := []byte(expectedPattern)
+
+	for {
+		time.Sleep(h.monitoringConfiguration.General.HealthcheckEvery)
+		result := checkResult{
+			groupOffset: groupOffset,
+			nodeOffset:  nodeOffset,
+			status:      statusDanger,
+		}
+
+		response, err := client.Get(endpoint)
+		if err != nil {
+			log.Println(err)
+
+			result.message = err.Error()
+			h.UpdateBoard(result)
+			continue
+		}
+
+		body, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			log.Println(err)
+
+			result.message = err.Error()
+			h.UpdateBoard(result)
+			continue
+		}
+
+		if response.Body != nil {
+			errClosing := response.Body.Close()
+			if err != nil {
+				log.Println(errClosing)
+
+				result.message = errClosing.Error()
+				h.UpdateBoard(result)
+				continue
+			}
+		}
+
+		if len(searchedPattern) > 0 && !bytes.Contains(body, searchedPattern) {
+			result.message = messagePatternNotFound
+			h.UpdateBoard(result)
+			continue
+		}
+
+		result.status = statusSuccess
+		result.message = messageOK
+		h.UpdateBoard(result)
 	}
 }
 

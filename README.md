@@ -47,10 +47,10 @@ groups:
     nodes:
       - name: front-1
         endpoint: https://www.example.com/
-        healthyResponseContains: Example
+        expectedPattern: Example
       - name: front-2
         endpoint: https://www.example.com/
-        healthyResponseContains: WillNotFoundThis
+        expectedPattern: WillNotFoundThis
   - name: Middleware Nodes (us-west-2)
     nodes:
       - name: middleware-1 with a really long name
