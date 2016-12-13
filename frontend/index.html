@@ -20,6 +20,11 @@
         padding-top: 70px;
         /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
     }
+    .with-overflow {
+        white-space: nowrap;
+        overflow:hidden;
+        text-overflow: ellipsis;
+    }
     </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -49,15 +54,11 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
+                    {{ range $i, $group := .HealthStatus.Groups }}
                     <li>
-                        <a href="#frontend">Frontend</a>
+                        <a href="#{{ $group.Anchor }}">{{ $group.Name }}</a>
                     </li>
-                    <li>
-                        <a href="#middleware">Middleware</a>
-                    </li>
-                    <li>
-                        <a href="#backend">Backend</a>
-                    </li>
+                    {{ end }}
                 </ul>
                 <p class="navbar-text navbar-right" style="padding-right: 16px">
                     Last refresh: <strong>{{.LastRefreshTime}}</strong> (refresh every {{.RefreshDashboardEvery}}s)
@@ -70,84 +71,48 @@
 
     <!-- Page Content -->
     <div class="container-fluid">
-
-        <div id="frontend" class="row">
+        {{ range $i, $group := .HealthStatus.Groups }}
+        <div id="{{ $group.Anchor }}" class="row">
             <div class="col-lg-12">
-                <h3>Frontend</h3>
+                <h3>{{ $group.Name }}</h3>
             </div>
         </div>
         <div class="row">
+            {{ range $i, $node := $group.Nodes }}
             <div class="col-md-2 col-sm-3 col-xs-6">
-                <div class="alert alert-success">
+                <div class="alert alert-{{ $node.Status }}">
                     <div style="margin-bottom: 10px;">
                         <div><strong>Name</strong></div>
-                        <div>MDS frontend-51</div>
+                        <div class="with-overflow" title="{{ $node.Name }}">{{ $node.Name }}</div>
                     </div>
                     <div style="margin-bottom: 10px;">
                         <div><strong>HTTP endpoint</strong></div>
-                        <div style="white-space: nowrap; overflow:hidden; text-overflow: ellipsis;">
-                            <a href="http://front-51.mds.contoso.com" class="alert-link" target="_new">http://front-51.mds.contoso.com/</a>
+                        <div class="with-overflow">
+                            <a href="{{ $node.Endpoint }}" title="{{ $node.Endpoint }}" class="alert-link" target="_new">{{ $node.Endpoint }}</a>
                         </div>
                     </div>
                     <div>
                         <div><strong>Status</strong></div>
-                        <div>
-                            Healthy
-                        </div>
+                        <div class="with-overflow" title="{{ $node.Message }}">{{ $node.Message }}</div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-2 col-sm-3 col-xs-6">
-                <div class="alert alert-danger">
-                    <div style="margin-bottom: 10px;">
-                        <div><strong>Name</strong></div>
-                        <div style="white-space: nowrap; overflow:hidden; text-overflow: ellipsis;" title="TODO3">
-                            MDS frontend-51
-                        </div>
-                    </div>
-                    <div style="margin-bottom: 10px;">
-                        <div><strong>HTTP endpoint</strong></div>
-                        <div style="white-space: nowrap; overflow:hidden; text-overflow: ellipsis;">
-                            <a href="http://front-51.mds.contoso.com" class="alert-link" title="TODO2" target="_new">http://front-51.mds.contoso.com/</a>
-                        </div>
-                    </div>
-                    <div>
-                        <div><strong>Status</strong></div>
-                        <div style="white-space: nowrap; overflow:hidden; text-overflow: ellipsis;" title="TODO">
-                            Timeout exceeded blah bal ba
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ end }}
         </div>
         <!-- /.row -->
-
-        <div id="middleware" class="row">
-            <div class="col-lg-12">
-                <h3>Middleware</h3>
-            </div>
-        </div>
-        <!-- /.row -->
-
-        <div id="backend" class="row">
-            <div class="col-lg-12">
-                <h3>Backend</h3>
-            </div>
-        </div>
-        <!-- /.row -->
+        {{ end }}
     </div>
     <!-- /.container -->
 
     <!-- Footer -->
-    <nav class="navbar-default navbar-fixed-bottom">
-        <div class="container-fluid">
-            <p class="navbar-text navbar-left">
-                Created by <a href="http://marcin.tojek.pl/" target="_new">Marcin Tojek</a> and distributed under
-                MIT license.
-            </p>
-        </div>
-        <!-- /.container -->
-    </nav>
+    <div class="container-fluid">
+        <br/>
+        <p style="text-align: center">
+            Created by <a href="http://marcin.tojek.pl/" target="_new">Marcin Tojek</a> and distributed under
+            MIT license. Feel free to use it.
+        </p>
+        <br/>
+    </div>
 
     <!-- jQuery Version 1.11.1 -->
     <script src="js/jquery.js"></script>

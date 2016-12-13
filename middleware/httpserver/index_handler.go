@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/mtojek/greenwall/middleware/application"
+	"github.com/mtojek/greenwall/middleware/healthcheck"
 	"github.com/mtojek/greenwall/middleware/monitoring"
 )
 
@@ -17,10 +18,12 @@ const indexFile = "index.html"
 type IndexHandler struct {
 	page                    *template.Template
 	monitoringConfiguration *monitoring.Configuration
+	healthcheck             *healthcheck.Healthcheck
 }
 
 // NewIndexHandler method creates a new instance of IndexHandler.
-func NewIndexHandler(applicationConfiguration *application.Configuration, monitoringConfiguration *monitoring.Configuration) *IndexHandler {
+func NewIndexHandler(applicationConfiguration *application.Configuration,
+	monitoringConfiguration *monitoring.Configuration, healthcheck *healthcheck.Healthcheck) *IndexHandler {
 	page, err := template.New(indexFile).ParseFiles(path.Join(applicationConfiguration.StaticDir, indexFile))
 	if err != nil {
 		log.Fatalf("Error occurred while parsing template: %v", err)
@@ -28,6 +31,7 @@ func NewIndexHandler(applicationConfiguration *application.Configuration, monito
 	return &IndexHandler{
 		page: page,
 		monitoringConfiguration: monitoringConfiguration,
+		healthcheck:             healthcheck,
 	}
 }
 
@@ -44,5 +48,6 @@ func (indexHandler *IndexHandler) readPageData() *PageData {
 	return &PageData{
 		LastRefreshTime:       time.Now().Format(time.RFC1123Z),
 		RefreshDashboardEvery: indexHandler.monitoringConfiguration.General.RefreshDashboardEvery.Seconds(),
+		HealthStatus:          indexHandler.healthcheck.Status(),
 	}
 }

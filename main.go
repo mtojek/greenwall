@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/mtojek/greenwall/middleware/application"
+	"github.com/mtojek/greenwall/middleware/healthcheck"
 	"github.com/mtojek/greenwall/middleware/httpserver"
 	"github.com/mtojek/greenwall/middleware/monitoring"
 )
@@ -9,6 +10,7 @@ import (
 func main() {
 	applicationConfiguration := application.FromCommandLineArgs()
 	monitoringConfiguration := monitoring.FromApplicationConfiguration(applicationConfiguration)
-	httpServer := httpserver.NewHTTPServer(applicationConfiguration, monitoringConfiguration)
+	healthcheck := healthcheck.NewHealthcheck()
+	httpServer := httpserver.NewHTTPServer(applicationConfiguration, monitoringConfiguration, healthcheck)
 	httpServer.ListenAndServe()
 }

@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/mtojek/greenwall/middleware/application"
+	"github.com/mtojek/greenwall/middleware/healthcheck"
 	"github.com/mtojek/greenwall/middleware/monitoring"
 )
 
@@ -15,8 +16,9 @@ type HTTPServer struct {
 }
 
 // NewHTTPServer method creates new instance of HTTPServer.
-func NewHTTPServer(applicationConfiguration *application.Configuration, monitoringConfiguration *monitoring.Configuration) *HTTPServer {
-	indexHandler := NewIndexHandler(applicationConfiguration, monitoringConfiguration)
+func NewHTTPServer(applicationConfiguration *application.Configuration,
+	monitoringConfiguration *monitoring.Configuration, healthcheck *healthcheck.Healthcheck) *HTTPServer {
+	indexHandler := NewIndexHandler(applicationConfiguration, monitoringConfiguration, healthcheck)
 	staticHandler := http.FileServer(http.Dir(applicationConfiguration.StaticDir))
 	serverMux := NewServerMux(indexHandler, staticHandler)
 	return &HTTPServer{
