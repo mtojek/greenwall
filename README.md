@@ -3,7 +3,7 @@
 ![Logo of GreenWall]
 (http://icons.iconarchive.com/icons/iconka/easter-egg-bunny/128/green-cute-icon.png)
 
-Status: **In progress** 
+Status: **Done** (waiting for feedback)
 
 [![Build Status](https://travis-ci.org/mtojek/greenwall.svg?branch=master)](https://travis-ci.org/mtojek/greenwall)
 
