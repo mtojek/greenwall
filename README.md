@@ -84,6 +84,26 @@ Go to the live dashboard:
 
 [http://localhost:9001](http://localhost:9001)
 
+## Building
+
+The project may be rebuilt using a single command - ```make```. This includes downloading dependencies, formatting, building code and testing.
+
+As @jtyang spotted - the building process may require higher user permission:
+```bash
+--- PASS: TestLint (8.93s)
+PASS
+ok      github.com/greenwall    8.932s
+?       github.com/greenwall/middleware/application     [no test files]
+?       github.com/greenwall/middleware/healthcheck     [no test files]
+?       github.com/greenwall/middleware/httpserver      [no test files]
+?       github.com/greenwall/middleware/monitoring      [no test files]
+go test -race  -i ./...
+go install runtime/internal/sys: open /usr/lib/golang/pkg/linux_amd64_race/runtime/internal/sys.a: permission denied
+make: *** [test] Error 1
+[me@centos7t01 greenwall]$
+```
+To resolve this issue, please elevate user permissions with ```sudo``` or use local Go installation.
+
 ## Dist
 
 It is possible to build a GreenWall distribution (```dist.zip```), which can be easily installed on the target host. Firstly, prepare a distribution:
