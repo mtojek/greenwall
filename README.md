@@ -88,7 +88,7 @@ Go to the live dashboard:
 
 The project may be rebuilt using a single command - ```make```. This includes downloading dependencies, formatting, building code and testing.
 
-As @jtyang spotted - the building process may require higher user permission:
+The building process may require higher user permission:
 ```bash
 --- PASS: TestLint (8.93s)
 PASS
