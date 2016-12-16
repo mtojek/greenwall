@@ -84,6 +84,16 @@ Go to the live dashboard:
 
 [http://localhost:9001](http://localhost:9001)
 
+### Running in cloud - Heroku, Cloud Foundry, etc.
+
+As an alternative to command line arguments, GreenWall can also read primary configuration (host, port, config file, static path, etc.) from environment variables. Names of variables can be listed with a ```-help``` switch. 
+
+Sample command:
+
+```
+PORT=9001 CONFIG=config.yaml STATIC_DIR=frontend greenwall
+```
+
 ## Building
 
 The project may be rebuilt using a single command - ```make```. This includes downloading dependencies, formatting, building code and testing.
