@@ -29,6 +29,7 @@ func NewHTTPServer(applicationConfiguration *application.Configuration,
 
 // ListenAndServe method listens and serves requests sent to HTTP handlers.
 func (httpServer *HTTPServer) ListenAndServe() {
+	log.Printf("Start listening on: %s", httpServer.applicationConfiguration.HostPort)
 	err := http.ListenAndServe(httpServer.applicationConfiguration.HostPort, httpServer.serverMux)
 	if err != nil {
 		log.Fatal(err)
