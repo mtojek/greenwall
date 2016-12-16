@@ -1,13 +1,13 @@
 package healthcheck
 
 import (
+	"bytes"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"regexp"
 	"strings"
 	"time"
-	"bytes"
-	"io/ioutil"
 
 	"github.com/mtojek/greenwall/middleware/application"
 	"github.com/mtojek/greenwall/middleware/monitoring"

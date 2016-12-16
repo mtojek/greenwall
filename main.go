@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	applicationConfiguration := application.FromCommandLineArgs()
+	applicationConfiguration := application.ReadConfiguration()
 	monitoringConfiguration := monitoring.FromApplicationConfiguration(applicationConfiguration)
 	healthcheck := healthcheck.NewHealthcheck(applicationConfiguration, monitoringConfiguration)
 	healthcheck.Start()
