@@ -1,8 +1,10 @@
 package httpserver
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/mtojek/greenwall/middleware/application"
 	"github.com/mtojek/greenwall/middleware/healthcheck"
@@ -29,7 +31,15 @@ func NewHTTPServer(applicationConfiguration *application.Configuration,
 
 // ListenAndServe method listens and serves requests sent to HTTP handlers.
 func (httpServer *HTTPServer) ListenAndServe() {
-	err := http.ListenAndServe(httpServer.applicationConfiguration.HostPort, httpServer.serverMux)
+	serverPort := os.Getenv("PORT")
+	addr := ":" + serverPort
+
+	if len(serverPort) == 0 {
+		addr = httpServer.applicationConfiguration.HostPort
+	}
+
+	fmt.Printf("Start listening on %s\n", addr)
+	err := http.ListenAndServe(addr, httpServer.serverMux)
 	if err != nil {
 		log.Fatal(err)
 	}
