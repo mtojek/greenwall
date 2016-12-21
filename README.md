@@ -28,8 +28,9 @@ The app can be installed in a couple of seconds thus do not hesitate to run this
 * web live dashboard based on Bootstrap
 * easily resizeable dashboard (wall, desktop, mobile screens)
 * definition of monitored hosts in a YAML file
-* use HTTP endpoints as source of health information
+* HTTP endpoints can be used as source of health information
 * search for "healthy" phrases in HTTP responses
+* pluggable health checks (waiting for TCP, TLS, DNS, REST, SOAP and others!)
 * install and run in a few seconds!
 
 ## Quickstart
@@ -124,6 +125,21 @@ make: *** [test] Error 1
 [me@centos7t01 greenwall]$
 ```
 To resolve this issue, please elevate user permissions with ```sudo``` or use local Go installation.
+
+## Creating pluggable health check
+
+The author is welcome to any contributions to this project, especially new health check types. To create a new plugin, please look at first into sample implementation of ```SampleCheck```. This check is responsible for comparing the current day with a "green day" provided in configuration.
+
+See: [sample_check.go](https://github.com/mtojek/greenwall/blob/master/middleware/healthcheck/checks/sample_check.go)
+
+High priority health check plugins:
+* TCP
+* TLS 
+* DNS 
+* REST
+* SOAP
+
+Please open a PR once you finish the implementation. Don't worry - I'll help you in pushing your change to the repository!
 
 ## Dist
 
