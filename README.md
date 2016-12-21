@@ -51,28 +51,39 @@ groups:
     nodes:
       - name: front-1
         endpoint: https://www.example.com/
-        expectedPattern: Example
+        type: http_check
+        parameters:
+            expectedPattern: Example
       - name: front-2
         endpoint: https://www.example.com/
-        expectedPattern: WillNotFindThis
+        type: http_check
+        parameters:
+            expectedPattern: WillNotFindThis
   - name: Middleware Nodes (us-west-2)
     nodes:
       - name: middleware-1 with a really long name
         endpoint: https://www.example.com/
+        type: http_check
       - name: middleware-2
         endpoint: https://www.example.com/
+        type: http_check
   - name: Backend Nodes (us-west-2)
     nodes:
       - name: backend-1
         endpoint: https://www.example.com/
+        type: http_check
       - name: backend-2
         endpoint: https://www.example.com/
+        type: http_check
       - name: backend-3
         endpoint: https://www.example.com/
+        type: http_check
       - name: backend-4
         endpoint: https://1234567890.example.com/
+        type: http_check
       - name: backend-5
         endpoint: https://www.example.com/
+        type: http_check
 ```
 
 Run the application:
