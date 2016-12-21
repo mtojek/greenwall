@@ -31,7 +31,7 @@ The app can be installed in a couple of seconds thus do not hesitate to run this
 * HTTP endpoints can be used as source of health information
 * search for "healthy" phrases in HTTP responses
 * ICMP ping
-* check expires SSL certificates with TLS health check
+* check expired SSL certificates with TLS health check
 * pluggable health checks (waiting for TCP, DNS, REST, SOAP and others!)
 * install and run in a few seconds!
 
