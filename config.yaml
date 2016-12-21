@@ -29,12 +29,15 @@ groups:
     nodes:
       - name: middleware-1 master host
         endpoint: https://www.example.com/
-      - name: middleware-2
-        endpoint: https://www.example.com/
-      - name: middleware-3
-        endpoint: https://www.example.com/
+      - name: localhost
+        endpoint: 127.0.0.1
+        type: ping_check
+      - name: Wirtualna Polska
+        endpoint: wp.pl
+        type: ping_check
       - name: middleware-4
-        endpoint: https://1234567890.example.com/
+        endpoint: 874397492374qwerty.pl
+        type: ping_check
       - name: middleware-5
         endpoint: https://www.example.com/
   - name: Backend (us-west-2)

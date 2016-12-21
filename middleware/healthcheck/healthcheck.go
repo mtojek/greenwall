@@ -68,11 +68,12 @@ func (h *Healthcheck) fillBoard() {
 			}
 
 			nodes = append(nodes, Node{
-				Name:     configuredNode.Name,
-				Type:     configuredNode.Type,
-				Endpoint: endpoint,
-				Status:   checks.StatusWarning,
-				Message:  checks.MessageNotCheckedYet,
+				Name:         configuredNode.Name,
+				Type:         configuredNode.Type,
+				Endpoint:     endpoint,
+				HTTPEndpoint: strings.HasPrefix(endpoint, "http://") || strings.HasPrefix(endpoint, "https://"),
+				Status:       checks.StatusWarning,
+				Message:      checks.MessageNotCheckedYet,
 			})
 		}
 		groups = append(groups, Group{
@@ -132,11 +133,12 @@ func (h *Healthcheck) copyOfBoard() HealthStatus {
 		var copyOfNodes []Node
 		for _, node := range group.Nodes {
 			copyOfNodes = append(copyOfNodes, Node{
-				Name:     node.Name,
-				Type:     node.Type,
-				Endpoint: node.Endpoint,
-				Status:   node.Status,
-				Message:  node.Message,
+				Name:         node.Name,
+				Type:         node.Type,
+				Endpoint:     node.Endpoint,
+				HTTPEndpoint: node.HTTPEndpoint,
+				Status:       node.Status,
+				Message:      node.Message,
 			})
 		}
 		copyOfGroups = append(copyOfGroups, Group{

@@ -93,7 +93,11 @@
                         <div><strong>Endpoint</strong></div>
                         <div class="with-overflow">
                             {{ if ne $node.Endpoint "" }}
+                            {{ if $node.HTTPEndpoint }}
                             <a href="{{ $node.Endpoint }}" title="{{ $node.Endpoint }}" class="alert-link" target="_new">{{ $node.Endpoint }}</a>
+                            {{ else }}
+                            {{ $node.Endpoint }}
+                            {{ end }}
                             {{ else }}
                             (not specified)
                             {{ end }}
