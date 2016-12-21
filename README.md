@@ -31,7 +31,8 @@ The app can be installed in a couple of seconds thus do not hesitate to run this
 * HTTP endpoints can be used as source of health information
 * search for "healthy" phrases in HTTP responses
 * ICMP ping
-* pluggable health checks (waiting for TCP, TLS, DNS, REST, SOAP and others!)
+* check expires SSL certificates with TLS health check
+* pluggable health checks (waiting for TCP, DNS, REST, SOAP and others!)
 * install and run in a few seconds!
 
 ## Quickstart
@@ -135,7 +136,6 @@ See: [sample_check.go](https://github.com/mtojek/greenwall/blob/master/middlewar
 
 High priority health check plugins:
 * TCP
-* TLS 
 * DNS 
 * REST
 * SOAP
