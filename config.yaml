@@ -43,7 +43,8 @@ groups:
   - name: Backend (us-west-2)
     nodes:
       - name: backend-1 master host
-        endpoint: https://www.example.com/
+        endpoint: google.com:443
+        type: tls_check
       - name: backend-2
         endpoint: https://1234567890.example.com/
       - name: backend-3
