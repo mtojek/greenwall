@@ -126,7 +126,7 @@ make: *** [test] Error 1
 ```
 To resolve this issue, please elevate user permissions with ```sudo``` or use local Go installation.
 
-## Creating pluggable health check
+## Creating own, pluggable health check
 
 The author is welcome to any contributions to this project, especially new health check types. To create a new plugin, please look at first into sample implementation of ```SampleCheck```. This check is responsible for comparing the current day with a "green day" provided in configuration.
 
