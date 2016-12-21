@@ -30,7 +30,8 @@ The app can be installed in a couple of seconds thus do not hesitate to run this
 * definition of monitored hosts in a YAML file
 * HTTP endpoints can be used as source of health information
 * search for "healthy" phrases in HTTP responses
-* pluggable health checks (waiting for Ping, TCP, TLS, DNS, REST, SOAP and others!)
+* ICMP ping
+* pluggable health checks (waiting for TCP, TLS, DNS, REST, SOAP and others!)
 * install and run in a few seconds!
 
 ## Quickstart
@@ -133,7 +134,6 @@ The author is welcome to any contributions to this project, especially new healt
 See: [sample_check.go](https://github.com/mtojek/greenwall/blob/master/middleware/healthcheck/checks/sample_check.go)
 
 High priority health check plugins:
-* Ping
 * TCP
 * TLS 
 * DNS 
