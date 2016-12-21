@@ -25,5 +25,8 @@ type Group struct {
 type Node struct {
 	Name            string `yaml:"name"`
 	Endpoint        string `yaml:"endpoint"`
-	ExpectedPattern string `yaml:"expectedPattern"`
+	ExpectedPattern string `yaml:"expectedPattern"` // Deprecated field (please use one in HTTPCheckConfig)
+
+	Type       string            `yaml:"type"`
+	Parameters map[string]string `yaml:"parameters"`
 }

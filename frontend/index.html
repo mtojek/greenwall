@@ -86,9 +86,17 @@
                         <div class="with-overflow" title="{{ $node.Name }}">{{ $node.Name }}</div>
                     </div>
                     <div style="margin-bottom: 10px;">
-                        <div><strong>HTTP endpoint</strong></div>
+                        <div><strong>Type</strong></div>
+                        <div class="with-overflow" title="{{ $node.Type }}">{{ $node.Type }}</div>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <div><strong>Endpoint</strong></div>
                         <div class="with-overflow">
+                            {{ if ne $node.Endpoint "" }}
                             <a href="{{ $node.Endpoint }}" title="{{ $node.Endpoint }}" class="alert-link" target="_new">{{ $node.Endpoint }}</a>
+                            {{ else }}
+                            (not specified)
+                            {{ end }}
                         </div>
                     </div>
                     <div>

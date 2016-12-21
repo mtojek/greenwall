@@ -26,6 +26,8 @@ func FromApplicationConfiguration(applicationConfiguration *application.Configur
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	addMissingNodeType(&monitoringConfiguration) // legacy
 	return &monitoringConfiguration
 }
 
@@ -34,4 +36,14 @@ func validate(monitoringConfiguration *Configuration) error {
 		return errors.New("no groups of monitored nodes were specified")
 	}
 	return nil
+}
+
+func addMissingNodeType(monitoringConfiguration *Configuration) {
+	for i := range monitoringConfiguration.Groups {
+		for j := range monitoringConfiguration.Groups[i].Nodes {
+			if len(monitoringConfiguration.Groups[i].Nodes[j].Type) == 0 {
+				monitoringConfiguration.Groups[i].Nodes[j].Type = "http_check"
+			}
+		}
+	}
 }

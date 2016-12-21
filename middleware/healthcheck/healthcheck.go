@@ -1,32 +1,27 @@
 package healthcheck
 
 import (
-	"bytes"
-	"io/ioutil"
-	"log"
-	"net/http"
 	"regexp"
 	"strings"
 	"time"
 
 	"github.com/mtojek/greenwall/middleware/application"
+	"github.com/mtojek/greenwall/middleware/healthcheck/checks"
 	"github.com/mtojek/greenwall/middleware/monitoring"
 )
 
 const (
-	statusDanger  = "danger"
-	statusSuccess = "success"
-	statusWarning = "warning"
-
-	messageNotCheckedYet   = "Not checked yet"
-	messagePatternNotFound = "Pattern not found"
-	messageOK              = "OK"
-
 	updateCheckChanLength  = 256
 	anchorReplaceCharacter = "_"
 )
 
 var anchorRegexp = regexp.MustCompile("[^A-Za-z0-9]+")
+
+type checkResultInBoard struct {
+	groupOffset int
+	nodeOffset  int
+	result      checks.CheckResult
+}
 
 // Healthcheck is responsible for storing latest statuses of monitored nodes.
 type Healthcheck struct {
@@ -36,15 +31,8 @@ type Healthcheck struct {
 	board HealthStatus
 
 	requestStatusChan      chan bool
-	requestUpdateCheckChan chan checkResult
+	requestUpdateCheckChan chan checkResultInBoard
 	responseStatusChan     chan HealthStatus
-}
-
-type checkResult struct {
-	groupOffset int
-	nodeOffset  int
-	status      string
-	message     string
 }
 
 // NewHealthcheck method creates a new instance of healthcheck.
@@ -55,7 +43,7 @@ func NewHealthcheck(applicationConfiguration *application.Configuration,
 		monitoringConfiguration:  monitoringConfiguration,
 
 		requestStatusChan:      make(chan bool),
-		requestUpdateCheckChan: make(chan checkResult, updateCheckChanLength),
+		requestUpdateCheckChan: make(chan checkResultInBoard, updateCheckChanLength),
 		responseStatusChan:     make(chan HealthStatus),
 	}
 }
@@ -72,11 +60,19 @@ func (h *Healthcheck) fillBoard() {
 	for _, configuredGroup := range h.monitoringConfiguration.Groups {
 		var nodes []Node
 		for _, configuredNode := range configuredGroup.Nodes {
+			var endpoint string
+			if len(configuredNode.Endpoint) > 0 {
+				endpoint = configuredNode.Endpoint
+			} else {
+				endpoint = ""
+			}
+
 			nodes = append(nodes, Node{
 				Name:     configuredNode.Name,
-				Endpoint: configuredNode.Endpoint,
-				Status:   statusWarning,
-				Message:  messageNotCheckedYet,
+				Type:     configuredNode.Type,
+				Endpoint: endpoint,
+				Status:   checks.StatusWarning,
+				Message:  checks.MessageNotCheckedYet,
 			})
 		}
 		groups = append(groups, Group{
@@ -106,61 +102,26 @@ func (h *Healthcheck) processRequests() {
 func (h *Healthcheck) runChecks() {
 	for i, group := range h.monitoringConfiguration.Groups {
 		for j, node := range group.Nodes {
-			go h.runCheck(i, j, node.Endpoint, node.ExpectedPattern)
+			go h.runCheck(i, j, node)
 		}
 	}
 }
 
-func (h *Healthcheck) runCheck(groupOffset, nodeOffset int, endpoint, expectedPattern string) {
-	client := http.Client{Timeout: h.monitoringConfiguration.General.HTTPClientTimeout}
-	searchedPattern := []byte(expectedPattern)
+func (h *Healthcheck) runCheck(groupOffset, nodeOffset int, nodeConfig monitoring.Node) {
+	routine := checks.MakeInstance(nodeConfig.Type)
+	routine.Initialize(h.monitoringConfiguration, &nodeConfig)
 
 	for {
 		time.Sleep(h.monitoringConfiguration.General.HealthcheckEvery)
-		result := checkResult{
+		resultInBoard := checkResultInBoard{
 			groupOffset: groupOffset,
 			nodeOffset:  nodeOffset,
-			status:      statusDanger,
+			result: checks.CheckResult{
+				Status: checks.StatusDanger,
+			},
 		}
-
-		response, err := client.Get(endpoint)
-		if err != nil {
-			log.Println(err)
-
-			result.message = err.Error()
-			h.UpdateBoard(result)
-			continue
-		}
-
-		body, err := ioutil.ReadAll(response.Body)
-		if err != nil {
-			log.Println(err)
-
-			result.message = err.Error()
-			h.UpdateBoard(result)
-			continue
-		}
-
-		if response.Body != nil {
-			errClosing := response.Body.Close()
-			if err != nil {
-				log.Println(errClosing)
-
-				result.message = errClosing.Error()
-				h.UpdateBoard(result)
-				continue
-			}
-		}
-
-		if len(searchedPattern) > 0 && !bytes.Contains(body, searchedPattern) {
-			result.message = messagePatternNotFound
-			h.UpdateBoard(result)
-			continue
-		}
-
-		result.status = statusSuccess
-		result.message = messageOK
-		h.UpdateBoard(result)
+		resultInBoard.result = routine.Run()
+		h.UpdateBoard(resultInBoard)
 	}
 }
 
@@ -172,6 +133,7 @@ func (h *Healthcheck) copyOfBoard() HealthStatus {
 		for _, node := range group.Nodes {
 			copyOfNodes = append(copyOfNodes, Node{
 				Name:     node.Name,
+				Type:     node.Type,
 				Endpoint: node.Endpoint,
 				Status:   node.Status,
 				Message:  node.Message,
@@ -186,9 +148,9 @@ func (h *Healthcheck) copyOfBoard() HealthStatus {
 	return HealthStatus{Groups: copyOfGroups}
 }
 
-func (h *Healthcheck) applyChange(result checkResult) {
-	h.board.Groups[result.groupOffset].Nodes[result.nodeOffset].Status = result.status
-	h.board.Groups[result.groupOffset].Nodes[result.nodeOffset].Message = result.message
+func (h *Healthcheck) applyChange(resultInBoard checkResultInBoard) {
+	h.board.Groups[resultInBoard.groupOffset].Nodes[resultInBoard.nodeOffset].Status = resultInBoard.result.Status
+	h.board.Groups[resultInBoard.groupOffset].Nodes[resultInBoard.nodeOffset].Message = resultInBoard.result.Message
 }
 
 // Status method returns a report containing statuses of monitored nodes.
@@ -198,6 +160,6 @@ func (h *Healthcheck) Status() HealthStatus {
 }
 
 // UpdateBoard method stores new check result in the board.
-func (h *Healthcheck) UpdateBoard(result checkResult) {
+func (h *Healthcheck) UpdateBoard(result checkResultInBoard) {
 	h.requestUpdateCheckChan <- result
 }

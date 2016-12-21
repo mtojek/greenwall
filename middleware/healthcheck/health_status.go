@@ -15,6 +15,7 @@ type Group struct {
 // Node reports health status of a monitored node.
 type Node struct {
 	Name     string
+	Type     string
 	Endpoint string
 	Status   string
 	Message  string
