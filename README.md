@@ -28,7 +28,8 @@ The app can be installed in a couple of seconds thus do not hesitate to run this
 * web live dashboard based on Bootstrap
 * easily resizeable dashboard (wall, desktop, mobile screens)
 * definition of monitored hosts in a YAML file
-* HTTP endpoints can be used as source of health information
+* HTTP endpoint can be used as source of health information
+* HTTP basic access authentication
 * search for "healthy" phrases in HTTP responses
 * ICMP ping
 * check expired SSL certificates with TLS health check
