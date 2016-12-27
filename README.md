@@ -57,6 +57,8 @@ groups:
         type: http_check
         parameters:
             expectedPattern: Example
+            basicAuthUsername: username
+            basicAuthPassword: password
       - name: front-2
         endpoint: https://www.example.com/
         type: http_check
