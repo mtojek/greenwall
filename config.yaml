@@ -11,6 +11,8 @@ groups:
         type: http_check
         parameters:
           expectedPattern: Example
+          basicAuthUsername: username
+          basicAuthPassword: password
       - name: front-2a (deprecated)
         endpoint: https://www.example.com/
         expectedPattern: Example
