@@ -2,6 +2,7 @@ package checks
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -22,10 +23,10 @@ type HTTPCheck struct {
 	monitoringConfiguration *monitoring.Configuration
 	nodeConfig              *monitoring.Node
 
-	client          *http.Client
-	searchedPattern []byte
-	basicUsername   string
-	basicPassword   string
+	client            *http.Client
+	searchedPattern   []byte
+	basicAuthUsername string
+	basicAuthPassword string
 }
 
 // Initialize method initializes the check instance.
@@ -40,8 +41,8 @@ func (h *HTTPCheck) Initialize(monitoringConfiguration *monitoring.Configuration
 		h.searchedPattern = []byte(h.nodeConfig.Parameters[expectedPatternParameter])
 	}
 
-	h.basicUsername = h.nodeConfig.Parameters[basicAuthUsernameParameter]
-	h.basicPassword = h.nodeConfig.Parameters[basicAuthPasswordParameter]
+	h.basicAuthUsername = h.nodeConfig.Parameters[basicAuthUsernameParameter]
+	h.basicAuthPassword = h.nodeConfig.Parameters[basicAuthPasswordParameter]
 }
 
 // Run method executes the check. This is invoked periodically.
@@ -58,8 +59,8 @@ func (h *HTTPCheck) Run() CheckResult {
 		return result
 	}
 
-	if h.basicUsername != "" && h.basicPassword != "" {
-		req.SetBasicAuth(h.basicUsername, h.basicPassword)
+	if h.withBasicAuth() {
+		req.SetBasicAuth(h.basicAuthUsername, h.basicAuthPassword)
 	}
 
 	response, err := h.client.Do(req)
@@ -67,6 +68,14 @@ func (h *HTTPCheck) Run() CheckResult {
 		log.Println(err)
 
 		result.Message = err.Error()
+		return result
+	}
+
+	if h.isHTTPError(response.StatusCode) {
+		e := fmt.Errorf("%d - %s", response.StatusCode, http.StatusText(response.StatusCode))
+		log.Println(e)
+
+		result.Message = e.Error()
 		return result
 	}
 
@@ -96,6 +105,14 @@ func (h *HTTPCheck) Run() CheckResult {
 	result.Status = StatusSuccess
 	result.Message = MessageOK
 	return result
+}
+
+func (h *HTTPCheck) withBasicAuth() bool {
+	return h.basicAuthUsername != "" && h.basicAuthPassword != ""
+}
+
+func (h *HTTPCheck) isHTTPError(code int) bool {
+	return code >= http.StatusBadRequest
 }
 
 func init() {

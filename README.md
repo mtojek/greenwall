@@ -53,10 +53,10 @@ groups:
   - name: Frontend Nodes (us-east-1)
     nodes:
       - name: front-1
-        endpoint: https://www.example.com/
+        endpoint: https://httpbin.org/basic-auth/username/password
         type: http_check
         parameters:
-            expectedPattern: Example
+            expectedPattern: "\"authenticated\": true"
             basicAuthUsername: username
             basicAuthPassword: password
       - name: front-2
