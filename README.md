@@ -1,7 +1,6 @@
 # GreenWall
 
-![Logo of GreenWall]
-(http://icons.iconarchive.com/icons/iconka/easter-egg-bunny/128/green-cute-icon.png)
+![Logo of GreenWall](https://icons.iconarchive.com/icons/iconka/easter-egg-bunny/128/green-cute-icon.png)
 
 Status: **Done** (waiting for feedback)
 
