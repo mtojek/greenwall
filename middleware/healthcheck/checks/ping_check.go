@@ -9,8 +9,7 @@ import (
 )
 
 const (
-	pingCheckName     = "ping_check"
-	messageICMPFailed = "ICMP failed"
+	pingCheckName = "ping_check"
 
 	pingTimeoutSeconds = 3
 )
